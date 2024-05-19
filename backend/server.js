@@ -1,12 +1,15 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const connectDB = require("./config/db.config");
+
+
 const app = express();
 dotenv.config();
 app.use(express.json());
 
-// Add your routes and other middleware here
+//Database Connection
+connectDB();
 
-// Example route
 app.get("/", (req, res) => {
   res.send("Hello, world!");
 });
