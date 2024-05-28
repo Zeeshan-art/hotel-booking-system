@@ -1,9 +1,31 @@
-import Layout from './layouts/Layout';
-import logo from './logo.svg';
-import './index.css'
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Layout from "./layouts/Layout";
+import "./index.css";
+
 function App() {
   return (
-    <Layout/>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Layout>
+              <p>Home Page</p>
+            </Layout>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <Layout>
+              <p>Search Page</p>
+            </Layout>
+          }
+        />
+          
+      </Routes>
+    </Router>
   );
 }
 
