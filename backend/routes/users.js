@@ -1,5 +1,10 @@
 const express = require("express");
-const { register, login } = require("../controllers/userControllers");
+const {
+  register,
+  login,
+  checkTokenValidity,
+  logout,
+} = require("../controllers/userControllers");
 const { check } = require("express-validator");
 const router = express.Router();
 
@@ -17,4 +22,8 @@ router.post(
   register
 );
 router.post("/login", login);
+router.post("/logout", logout);
+
+//router.post("/validate-token", verifyToken, checkTokenValidity);
+
 module.exports = router;

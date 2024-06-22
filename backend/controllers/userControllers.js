@@ -19,14 +19,14 @@ const register = async (req, res) => {
 
     user = new User({ email, firstName, lastName, password });
     await user.save();
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "1d",
-    });
-    res.cookie("auth_token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 86400000,
-    });
+    // const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET_KEY, {
+    //   expiresIn: "1d",
+    // });
+    // res.cookie("auth_token", token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production",
+    //   maxAge: 86400000,
+    // });
     return res.status(200).send({ message: "user register successfully" });
   } catch (error) {
     console.log(error);
@@ -38,20 +38,19 @@ const login = async (req, res) => {
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-  const { email, password } = req.body;
+  const { email, password } = req?.body;
+  console.log(email, password, "2");
   try {
     const user = await User.findOne({
       email,
     });
-    console.log(user.password, user._id, "password");
+    console.log(user, "user");
     if (!user) {
-      console.log("user");
       return res.status(400).json("Invalid credentials");
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      console.log("isMatch");
-      return res.status(400).json("Invalid credentials");
+      return res.status(400).json("Invalid credential");
     }
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
       expiresIn: "1d",
@@ -61,11 +60,29 @@ const login = async (req, res) => {
       secure: process.env.NODE_ENV === "production",
       maxAge: 86400000,
     });
-    return res.status(200).json({ userId: user._id });
+    const data = {
+      userId: user._id,
+      token: token,
+      message: "login successful",
+    };
+    return res.status(200).json(data);
   } catch (error) {
     console.log(error);
     return res.status(500).send({ message: "something went wrong" });
   }
 };
+const logout = async (req, res) => {
+  try {
+    res.cookie("auth_token", "", { expires: new Date(0) });
+    console.log("logout");
+    return res.status(200).send({ message: "logout successfull" });
+  } catch (error) {
+    console.log(error); 
+    return res.status(500).send({ message: "something went wrong" });
+  }
+};
+const checkTokenValidity = async (req, res) => {
+  res.status(200).send({ user: req.user });
+};
 
-module.exports = { register, login };
+module.exports = { register, login, checkTokenValidity, logout };
