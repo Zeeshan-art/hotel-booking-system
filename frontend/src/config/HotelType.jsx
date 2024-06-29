@@ -1,0 +1,25 @@
+const hotelTypes = [
+  "Resort",
+  "Boutique",
+  "Motel",
+  "Hostel",
+  "Luxury",
+  "Budget",
+  "Casino",
+  "Eco",
+  "Business",
+  "Family",
+  "Historic",
+  "Airport",
+  "Spa",
+  "Villa",
+  "Cottage",
+  "Guest House",
+  "Holiday Park",
+  "Inn",
+  "Chalet",
+  "Lodge",
+  "Capsule",
+];
+
+export default hotelTypes;

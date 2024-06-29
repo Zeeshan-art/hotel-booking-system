@@ -8,8 +8,13 @@ import {
 import Layout from "./layouts/Layout";
 import "./index.css";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Protected from "./protected-routes/Protected";
+import AddHotel from "./pages/AddHotel";
+import { useSelector } from "react-redux";
 
 function App() {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   return (
     <Router>
       <Routes>
@@ -37,6 +42,26 @@ function App() {
             </Layout>
           }
         />
+        <Route
+          path="/login"
+          element={
+            <Layout>
+              <Login />
+            </Layout>
+          }
+        />
+        {isLoggedIn && (
+          <>
+            <Route
+              path="/add-hotels"
+              element={
+                <Layout>
+                  <AddHotel />
+                </Layout>
+              }
+            />
+          </>
+        )}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>

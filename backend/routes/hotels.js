@@ -9,11 +9,12 @@ const router = express.Router();
 
 router.post(
   "/",
+  verifyToken,
   [
     check("userId", "userId is required").isString(),
     check("name", "name is required").isString(),
     check("city", "city is required").isString(),
-    check("country", "userId is required").isString(),
+    check("country", "country is required").isString(),
     check("description", "description  is required").isString(),
     check("type", "type is required").isString(),
     check(
@@ -22,7 +23,7 @@ router.post(
     ).isNumeric(),
     check("facilities", "facilities is required").isArray(),
   ],
-  upload.array("photos", 6),
+  upload.array("imageFiles", 6),
   addHotel
 );
 

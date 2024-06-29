@@ -77,7 +77,7 @@ const logout = async (req, res) => {
     console.log("logout");
     return res.status(200).send({ message: "logout successfull" });
   } catch (error) {
-    console.log(error); 
+    console.log(error);
     return res.status(500).send({ message: "something went wrong" });
   }
 };

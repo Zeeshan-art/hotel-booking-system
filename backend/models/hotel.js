@@ -1,6 +1,5 @@
-// models/User.js
-const { MinKey } = require("mongodb");
 const mongoose = require("mongoose");
+
 const HotelSchema = new mongoose.Schema({
   userId: {
     type: String,
@@ -30,26 +29,26 @@ const HotelSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  childCOunt: {
+  childCount: {
     type: Number,
     required: true,
   },
   facilities: {
-    type: String,
+    type: [String], // Change this to an array of strings
     required: true,
   },
   pricePerNight: {
-    type: Number ,
+    type: Number,
     required: true,
   },
   starRating: {
-    type: String,
+    type: Number, // Change this to a number
     required: true,
     min: 1,
     max: 5,
   },
   imageUrls: {
-    type: String,
+    type: [String], // Change this to an array of strings
     required: true,
   },
   lastUpdate: {

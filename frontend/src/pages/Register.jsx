@@ -1,7 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { signup } from "../redux/slice/auth/thunk";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     register,
     watch,
@@ -9,7 +14,7 @@ const Register = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = (data) => {
-    console.log(data, "sata");
+    dispatch(signup(data));
   };
 
   return (
