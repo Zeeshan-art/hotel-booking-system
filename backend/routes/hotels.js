@@ -2,7 +2,12 @@ const express = require("express");
 
 const { check } = require("express-validator");
 const upload = require("../middleware/multer");
-const { addHotel } = require("../controllers/hotelControllers");
+const {
+  addHotel,
+  getMyHotels,
+  editMyHotels,
+  getMyHotelsById,
+} = require("../controllers/hotelControllers");
 const verifyToken = require("../middleware/auth");
 
 const router = express.Router();
@@ -26,5 +31,8 @@ router.post(
   upload.array("imageFiles", 6),
   addHotel
 );
+router.get("/", verifyToken, getMyHotels);
+router.get("/:hotelId", verifyToken, getMyHotelsById);
+router.put("/:hotelId", verifyToken, upload.array("imageFiles"), editMyHotels);
 
 module.exports = router;

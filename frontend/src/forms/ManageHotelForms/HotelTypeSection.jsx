@@ -13,8 +13,8 @@ const HotelTypeSection = () => {
     <div>
       <h1 className="text-2xl font-bold mb-3">Type</h1>
       <div className="grid grid-cols-5 gap-2">
-        {hotelTypes.map((type) => (
-          <label
+        {hotelTypes.map((type, index) => (
+          <label key= {index}
             className={
               typeWatch === type
                 ? "cursor-pointer text-sm bg-blue-300 rounded-full px-4 py-2 font-semibold"

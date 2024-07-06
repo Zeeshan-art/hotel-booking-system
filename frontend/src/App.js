@@ -12,6 +12,8 @@ import Login from "./pages/Login";
 import Protected from "./protected-routes/Protected";
 import AddHotel from "./pages/AddHotel";
 import { useSelector } from "react-redux";
+import MyHotel from "./pages/MyHotel";
+import EditHotel from "./pages/EditHotel";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -57,6 +59,22 @@ function App() {
               element={
                 <Layout>
                   <AddHotel />
+                </Layout>
+              }
+            />
+            <Route
+              path="/my-hotels"
+              element={
+                <Layout>
+                  <MyHotel />
+                </Layout>
+              }
+            />
+            <Route
+              path="/edit-hotels/:hotelId"
+              element={
+                <Layout>
+                  <EditHotel />
                 </Layout>
               }
             />

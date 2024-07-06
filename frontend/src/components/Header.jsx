@@ -10,7 +10,7 @@ const Header = () => {
       <div className="container mx-auto flex justify-between align-items-center">
         <Link to = '/' className="text-white text-3xl font-bold">SpentHolidays.com</Link>
         {isLoggedIn ? (
-          <>
+          <div className="flex">
             <Link
               to="/my-bookings"
               className="text-white flex items-center px-3 font-bold hover:bg-blue-600"
@@ -24,7 +24,7 @@ const Header = () => {
               My Hotels
             </Link>
             <SignOutButton />
-          </>
+          </div>
         ) : (
           <Link
             className="flex items-center bg-white px-3 text-blue-800 font-bold hover-bg-white-500"
