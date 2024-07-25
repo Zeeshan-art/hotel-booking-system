@@ -14,6 +14,9 @@ import AddHotel from "./pages/AddHotel";
 import { useSelector } from "react-redux";
 import MyHotel from "./pages/MyHotel";
 import EditHotel from "./pages/EditHotel";
+import SearchBar from "./components/SearchBar";
+import Search from "./components/Search";
+import Pagination from "./components/Pagination";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -25,14 +28,6 @@ function App() {
           element={
             <Layout>
               <p>Home Page</p>
-            </Layout>
-          }
-        />
-        <Route
-          path="/search"
-          element={
-            <Layout>
-              <p>Search Page</p>
             </Layout>
           }
         />
@@ -49,6 +44,14 @@ function App() {
           element={
             <Layout>
               <Login />
+            </Layout>
+          }
+        />
+        <Route
+          path="/search"
+          element={
+            <Layout>
+              <Search />
             </Layout>
           }
         />

@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getHotelById, editHotels } from "../redux/slice/hotel/thunk";
+
 import ManageHotelForm from "../forms/ManageHotelForms/ManageHotelForm";
+import { editHotels, getHotelById } from "../redux/slice/my-hotel/thunk";
 
 const EditHotel = () => {
   const { hotelId } = useParams();
-  const { myHotelsDetail, isLoading } = useSelector((state) => state.hotel);
+  const { myHotelsDetail, isLoading } = useSelector((state) => state.myHotel);
   const dispatch = useDispatch();
 
   useEffect(() => {

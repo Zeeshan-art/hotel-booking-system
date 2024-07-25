@@ -8,7 +8,9 @@ const Header = () => {
   return (
     <div className="bg-blue-800 py-6">
       <div className="container mx-auto flex justify-between align-items-center">
-        <Link to = '/' className="text-white text-3xl font-bold">SpentHolidays.com</Link>
+        <Link to="/" className="text-white text-3xl font-bold">
+          SpentHolidays.com
+        </Link>
         {isLoggedIn ? (
           <div className="flex">
             <Link
