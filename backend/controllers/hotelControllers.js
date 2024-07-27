@@ -8,7 +8,7 @@ const search = async (req, res) => {
 
     const filters = {};
     if (req.query.stars) {
-      filters.starRating = { $in: req.query.stars.split(",").map(Number) };
+      filters.starRating = { $in: req.query.stars.split(",") };
     }
     if (req.query.types) {
       filters.type = { $in: req.query.types.split(",") };
@@ -16,10 +16,18 @@ const search = async (req, res) => {
     if (req.query.facilities) {
       filters.facilities = { $all: req.query.facilities.split(",") };
     }
+    if (req.query.destination) {
+      console.log('city', req.query.destination);
+      filters.city = req.query.destination;
+    }
+    if (req.query.adultCount) {
+      filters.adultCount = { $gte: parseInt(req.query.adultCount) };
+    }
+    if (req.query.childCount) {
+      filters.childCount = { $gte: parseInt(req.query.childCount) };
+    }
 
-    const hotels = await Hotel.find(filters)
-      .skip(skip)
-      .limit(pageSize);
+    const hotels = await Hotel.find(filters).skip(skip).limit(pageSize);
 
     if (!hotels || hotels.length === 0) {
       return res.status(404).json({ message: "Hotels Not Found" });

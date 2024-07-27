@@ -7,6 +7,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const SearchBar = () => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
   const [destination, setDestination] = useState("");
   const [checkIn, setCheckIn] = useState(new Date());
   const [checkOut, setCheckOut] = useState(new Date());
@@ -15,48 +17,86 @@ const SearchBar = () => {
   const [selectedStars, setSelectedStars] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [selectedFacilities, setSelectedFacilities] = useState([]);
-  
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const destination = params.get("destination") || "";
-    const checkIn = params.get("checkIn") ? new Date(params.get("checkIn")) : new Date();
-    const checkOut = params.get("checkOut") ? new Date(params.get("checkOut")) : new Date();
-    const adultCount = params.get("adultCount") || 1;
-    const childCount = params.get("childCount") || 0;
-    const selectedStars = params.get("stars") ? params.get("stars").split(",") : [];
-    const selectedTypes = params.get("types") ? params.get("types").split(",") : [];
-    const selectedFacilities = params.get("facilities") ? params.get("facilities").split(",") : [];
+  //useEffect(() => {
+  //const params = new URLSearchParams(location.search);
+  // const destination = params.get("destination") || "";
+  // const checkIn = params.get("checkIn") ? new Date(params.get("checkIn")) : new Date();
+  // const checkOut = params.get("checkOut") ? new Date(params.get("checkOut")) : new Date();
+  // const adultCount = params.get("adultCount") || 1;
+  // const childCount = params.get("childCount") || 0;
+  // const selectedStars = params.get("stars")
+  //   ? params.get("stars").split(",")
+  //   : [];
+  // const selectedTypes = params.get("types")
+  //   ? params.get("types").split(",")
+  //   : [];
+  // const selectedFacilities = params.get("facilities")
+  //   ? params.get("facilities").split(",")
+  //   : [];
 
-    setDestination(destination);
-    setCheckIn(checkIn);
-    setCheckOut(checkOut);
-    setAdultCount(adultCount);
-    setChildCount(childCount);
-    setSelectedStars(selectedStars);
-    setSelectedTypes(selectedTypes);
-    setSelectedFacilities(selectedFacilities);
+  // setDestination(destination);
+  // setCheckIn(checkIn);
+  // setCheckOut(checkOut);
+  // setAdultCount(adultCount);
+  // setChildCount(childCount);
+  //setSelectedStars(selectedStars);
+  // setSelectedTypes(selectedTypes);
+  // setSelectedFacilities(selectedFacilities);
 
-    dispatch(searchHotel(location.search));
-  }, [location.search, dispatch]);
+  //   dispatch(searchHotel(location.search));
+  // }, [location.search, dispatch]);
+  // useEffect(() => {
+  //   console.log('selectedStars', selectedStars);
+  //   const queryParams = new URLSearchParams({
+  //     destination,
+  //     checkIn: checkIn ? checkIn.toISOString() : new Date().toISOString(),
+  //     checkOut: checkOut ? checkOut.toISOString() : new Date().toISOString(),
+  //     adultCount: adultCount.toString(),
+  //     childCount: childCount.toString(),
+  //     //stars: params.get("stars") ? params.get("stars").split(",") : [],
+  //     types: selectedTypes.join(","),
+  //     facilities: selectedFacilities.join(","),
+  //     page: "1",
+  //   }).toString();
+
+  //   dispatch(searchHotel(queryParams));
+  // }, [
+  //   selectedStars,
+  //   destination,
+  //   checkIn,
+  //   checkOut,
+  //   adultCount,
+  //   childCount,
+  //   selectedTypes,
+  //   selectedFacilities,
+  //   dispatch,
+  // ]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const checkInDate = checkIn
+      ? checkIn.toISOString()
+      : new Date().toISOString();
+    const checkOutDate = checkOut
+      ? checkOut.toISOString()
+      : new Date().toISOString();
+
     const queryParams = new URLSearchParams({
       destination,
-      checkIn: checkIn.toISOString(),
-      checkOut: checkOut.toISOString(),
+      checkIn: checkInDate,
+      checkOut: checkOutDate,
       adultCount: adultCount.toString(),
       childCount: childCount.toString(),
-      stars: selectedStars.join(","),
-      types: selectedTypes.join(","),
-      facilities: selectedFacilities.join(","),
+      //stars: selectedStars.join(","),
+      // types: selectedTypes.join(","),
+      // facilities: selectedFacilities.join(","),
       page: "1",
     }).toString();
-
+    dispatch(searchHotel(queryParams));
     navigate(`/search?${queryParams}`);
   };
 
@@ -66,9 +106,6 @@ const SearchBar = () => {
     setCheckOut(new Date());
     setAdultCount(1);
     setChildCount(0);
-    setSelectedStars([]);
-    setSelectedTypes([]);
-    setSelectedFacilities([]);
   };
 
   const minDate = new Date();

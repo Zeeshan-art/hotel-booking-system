@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import SearchCard from "./SearchCard";
 import Pagination from "./Pagination";
 import StarRating from "./StarRating";
 import HotelType from "./HotelType";
 import HotelFacilities from "./HotelFacilities";
+import { searchHotel } from "../redux/slice/hotel/thunk";
 
 const Search = () => {
   const searchResult = useSelector((state) => state.hotel.searchResult);
@@ -15,6 +16,7 @@ const Search = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const handleStarChange = (e) => {
     const selected = e.target.value;
@@ -55,11 +57,13 @@ const Search = () => {
       queryParams.append("facilities", selectedFacilties.join(","));
     }
 
-    navigate({
-      pathname: location.pathname,
-      search: queryParams.toString(),
-    });
-  }, [selectedStars, selectedTypes, selectedFacilties, navigate, location.pathname]);
+    // navigate({
+    //   pathname: location.pathname,
+    //   search: queryParams.toString(),
+    // });
+    dispatch(searchHotel(queryParams));
+    navigate(`/search?${queryParams}`);
+  }, [selectedStars, selectedTypes, selectedFacilties, location.pathname]);
 
   return (
     <>
