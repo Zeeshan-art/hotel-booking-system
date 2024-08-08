@@ -17,7 +17,7 @@ const search = async (req, res) => {
       filters.facilities = { $all: req.query.facilities.split(",") };
     }
     if (req.query.destination) {
-      console.log('city', req.query.destination);
+      console.log("city", req.query.destination);
       filters.city = req.query.destination;
     }
     if (req.query.adultCount) {
@@ -49,4 +49,18 @@ const search = async (req, res) => {
   }
 };
 
-module.exports = { search };
+const getHotelById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const hotel = await Hotel.findById({ _id: id });
+    if (!hotel || hotel.length === 0) {
+      return res.status(404).json({ message: "Hotels Not Found" });
+    }
+    return res.status(200).json(hotel);
+  } catch (error) {
+    console.log("error", error);
+    res.status(500).json({ message: "Something went wrong" });
+  }
+};
+
+module.exports = { search, getHotelById };

@@ -35,11 +35,13 @@ const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(login.fulfilled, (state, action) => {
-        const { message, token } = action.payload;
+        const { message, token, user } = action.payload;
         state.isLoading = false;
         state.token = token;
+        state.user = user;
         if (message === "login successful") {
           Cookies.set("token", token);
+          Cookies.set("user", user);
           state.isLoggedIn = true;
         }
         toast.success(message);

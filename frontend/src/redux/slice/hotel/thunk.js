@@ -15,3 +15,17 @@ export const searchHotel = createAsyncThunk(
     }
   }
 );
+export const getHotelById = createAsyncThunk(
+  "hotels/getHotelById",
+  async (body, { rejecWithValue }) => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_BASE_URL}/api/hotels/${body}`
+      );
+      return response.data;
+    } catch (error) {
+      const errorMessage = error.response?.response;
+      return rejecWithValue(errorMessage);
+    }
+  }
+);

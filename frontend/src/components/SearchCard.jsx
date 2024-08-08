@@ -49,9 +49,12 @@ const SearchCard = ({ hotel }) => {
             <span className="font-bold text-sm">
               {hotel.pricePerNight} per night
             </span>
-            <button className="bg-blue-700 h-full text-white p-2 max-w-fit text-xl hover:bg-blue-600">
+            <Link
+              to={`/hotel-detail/${hotel._id}`}
+              className="bg-blue-700 h-full text-white p-2 max-w-fit text-xl hover:bg-blue-600"
+            >
               View More
-            </button>
+            </Link>
           </div>
         </div>
       </div>

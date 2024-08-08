@@ -7,6 +7,7 @@ import StarRating from "./StarRating";
 import HotelType from "./HotelType";
 import HotelFacilities from "./HotelFacilities";
 import { searchHotel } from "../redux/slice/hotel/thunk";
+import MaxPriceFilter from "./MaxPriceFilter";
 
 const Search = () => {
   const searchResult = useSelector((state) => state.hotel.searchResult);
@@ -56,11 +57,6 @@ const Search = () => {
     if (selectedFacilties.length > 0) {
       queryParams.append("facilities", selectedFacilties.join(","));
     }
-
-    // navigate({
-    //   pathname: location.pathname,
-    //   search: queryParams.toString(),
-    // });
     dispatch(searchHotel(queryParams));
     navigate(`/search?${queryParams}`);
   }, [selectedStars, selectedTypes, selectedFacilties, location.pathname]);
@@ -85,6 +81,7 @@ const Search = () => {
               onChange={handleFacilityChange}
               selectedFacilties={selectedFacilties}
             />
+            <MaxPriceFilter />
           </div>
         </div>
         <div className="flex flex-col gap-5">
@@ -92,6 +89,11 @@ const Search = () => {
             <span className="text-xl font-bold">
               {searchResult?.pagination.total} Hotel found
             </span>
+            <select className="p-2 rounded-md">
+              <option > Sort By</option>
+              <option > pricPerNight(low to high)</option>
+              <option > pricPerNight(high to low)</option>
+            </select>
           </div>
           {searchResult?.data &&
             searchResult?.data.map((hotel, index) => (

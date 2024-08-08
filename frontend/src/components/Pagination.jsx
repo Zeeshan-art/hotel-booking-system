@@ -1,6 +1,7 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
+import { searchHotel } from "../redux/slice/hotel/thunk";
 
 const Pagination = () => {
   const { pages, pageNumber } = useSelector(
@@ -8,11 +9,15 @@ const Pagination = () => {
   );
   const navigate = useNavigate();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const onPageChange = (page) => {
-    const params = new URLSearchParams(location.search);
-    params.set("page", page);
-    navigate(`/search?${params.toString()}`);
+    // const params = new URLSearchParams(location.search);
+    // params.set("page", page);
+    const qeuryParams = new URLSearchParams();
+    qeuryParams.append("page", page);
+    dispatch(searchHotel(qeuryParams));
+    navigate(`/search?${qeuryParams}`);
   };
 
   const pageNumbers = [];
@@ -45,7 +50,9 @@ const Pagination = () => {
           ))}
           <button
             onClick={(e) => onPageChange(pageNumber + 1)}
-            className={`${(pages === 2 || pageNumber === pages) && "hidden"} px-2`}
+            className={`${
+              (pages === 2 || pageNumber === pages) && "hidden"
+            } px-2`}
           >
             Next
           </button>

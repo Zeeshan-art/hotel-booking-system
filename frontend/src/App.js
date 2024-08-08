@@ -9,14 +9,13 @@ import Layout from "./layouts/Layout";
 import "./index.css";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import Protected from "./protected-routes/Protected";
 import AddHotel from "./pages/AddHotel";
 import { useSelector } from "react-redux";
 import MyHotel from "./pages/MyHotel";
 import EditHotel from "./pages/EditHotel";
-import SearchBar from "./components/SearchBar";
 import Search from "./components/Search";
-import Pagination from "./components/Pagination";
+import HotelDetail from "./pages/HotelDetail";
+import BookingHotel from "./pages/BookingHotel";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -55,6 +54,14 @@ function App() {
             </Layout>
           }
         />
+        <Route
+          path="/hotel-detail/:id"
+          element={
+            <Layout>
+              <HotelDetail />
+            </Layout>
+          }
+        />
         {isLoggedIn && (
           <>
             <Route
@@ -62,6 +69,14 @@ function App() {
               element={
                 <Layout>
                   <AddHotel />
+                </Layout>
+              }
+            />
+            <Route
+              path="/:hotelId/booking"
+              element={
+                <Layout>
+                  <BookingHotel />
                 </Layout>
               }
             />

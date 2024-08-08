@@ -14,87 +14,52 @@ const SearchBar = () => {
   const [checkOut, setCheckOut] = useState(new Date());
   const [adultCount, setAdultCount] = useState(1);
   const [childCount, setChildCount] = useState(0);
-  const [selectedStars, setSelectedStars] = useState([]);
-  const [selectedTypes, setSelectedTypes] = useState([]);
-  const [selectedFacilities, setSelectedFacilities] = useState([]);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  //useEffect(() => {
-  //const params = new URLSearchParams(location.search);
-  // const destination = params.get("destination") || "";
-  // const checkIn = params.get("checkIn") ? new Date(params.get("checkIn")) : new Date();
-  // const checkOut = params.get("checkOut") ? new Date(params.get("checkOut")) : new Date();
-  // const adultCount = params.get("adultCount") || 1;
-  // const childCount = params.get("childCount") || 0;
-  // const selectedStars = params.get("stars")
-  //   ? params.get("stars").split(",")
-  //   : [];
-  // const selectedTypes = params.get("types")
-  //   ? params.get("types").split(",")
-  //   : [];
-  // const selectedFacilities = params.get("facilities")
-  //   ? params.get("facilities").split(",")
-  //   : [];
+  // Load state from sessionStorage when the component mounts
+  useEffect(() => {
+    const savedState = sessionStorage.getItem("searchBarState");
+    if (savedState) {
+      const {
+        destination,
+        checkIn,
+        checkOut,
+        adultCount,
+        childCount,
+      } = JSON.parse(savedState);
+      setDestination(destination);
+      setCheckIn(new Date(checkIn));
+      setCheckOut(new Date(checkOut));
+      setAdultCount(adultCount);
+      setChildCount(childCount);
+    }
+  }, []);
 
-  // setDestination(destination);
-  // setCheckIn(checkIn);
-  // setCheckOut(checkOut);
-  // setAdultCount(adultCount);
-  // setChildCount(childCount);
-  //setSelectedStars(selectedStars);
-  // setSelectedTypes(selectedTypes);
-  // setSelectedFacilities(selectedFacilities);
-
-  //   dispatch(searchHotel(location.search));
-  // }, [location.search, dispatch]);
-  // useEffect(() => {
-  //   console.log('selectedStars', selectedStars);
-  //   const queryParams = new URLSearchParams({
-  //     destination,
-  //     checkIn: checkIn ? checkIn.toISOString() : new Date().toISOString(),
-  //     checkOut: checkOut ? checkOut.toISOString() : new Date().toISOString(),
-  //     adultCount: adultCount.toString(),
-  //     childCount: childCount.toString(),
-  //     //stars: params.get("stars") ? params.get("stars").split(",") : [],
-  //     types: selectedTypes.join(","),
-  //     facilities: selectedFacilities.join(","),
-  //     page: "1",
-  //   }).toString();
-
-  //   dispatch(searchHotel(queryParams));
-  // }, [
-  //   selectedStars,
-  //   destination,
-  //   checkIn,
-  //   checkOut,
-  //   adultCount,
-  //   childCount,
-  //   selectedTypes,
-  //   selectedFacilities,
-  //   dispatch,
-  // ]);
+  // Save state to sessionStorage whenever it changes
+  useEffect(() => {
+    const state = {
+      destination,
+      checkIn: checkIn.toISOString(),
+      checkOut: checkOut.toISOString(),
+      adultCount,
+      childCount,
+    };
+    sessionStorage.setItem("searchBarState", JSON.stringify(state));
+  }, [destination, checkIn, checkOut, adultCount, childCount]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const checkInDate = checkIn
-      ? checkIn.toISOString()
-      : new Date().toISOString();
-    const checkOutDate = checkOut
-      ? checkOut.toISOString()
-      : new Date().toISOString();
+    const checkInDate = checkIn ? checkIn.toISOString() : new Date().toISOString();
+    const checkOutDate = checkOut ? checkOut.toISOString() : new Date().toISOString();
 
     const queryParams = new URLSearchParams({
-      destination,
+      destination:destination,
       checkIn: checkInDate,
       checkOut: checkOutDate,
       adultCount: adultCount.toString(),
       childCount: childCount.toString(),
-      //stars: selectedStars.join(","),
-      // types: selectedTypes.join(","),
-      // facilities: selectedFacilities.join(","),
-      page: "1",
     }).toString();
     dispatch(searchHotel(queryParams));
     navigate(`/search?${queryParams}`);
@@ -115,7 +80,7 @@ const SearchBar = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="-mt-8 bg-orange-400 p-3 gap-4 rounded shadow-md grid grid-cols-2 lg:grid-cols-5 xl:grid-cols-5 items-center"
+      className="-mt-8 bg-orange-400 p-2 gap-2 rounded shadow-md grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 items-center"
     >
       <div className="flex flex-row items-center flex-1 bg-white p-2">
         <MdTravelExplore size={25} className="mr-2" />

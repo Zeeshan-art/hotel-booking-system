@@ -52,9 +52,13 @@ const login = async (req, res) => {
     if (!isMatch) {
       return res.status(400).json("Invalid credential");
     }
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
-      expiresIn: "1d",
-    });
+    const token = jwt.sign(
+      { userId: user._id, user: user },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "1d",
+      }
+    );
     res.cookie("auth_token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -62,6 +66,7 @@ const login = async (req, res) => {
     });
     const data = {
       userId: user._id,
+      user: user,
       token: token,
       message: "login successful",
     };
