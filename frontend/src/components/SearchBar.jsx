@@ -80,7 +80,7 @@ const SearchBar = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="-mt-8 bg-orange-400 p-2 gap-2 rounded shadow-md grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 items-center"
+      className="-mt-8 bg-orange-400 p-2 gap-2 rounded shadow-md grid grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5 items-center"
     >
       <div className="flex flex-row items-center flex-1 bg-white p-2">
         <MdTravelExplore size={25} className="mr-2" />

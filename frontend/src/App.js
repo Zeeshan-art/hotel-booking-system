@@ -16,6 +16,7 @@ import EditHotel from "./pages/EditHotel";
 import Search from "./components/Search";
 import HotelDetail from "./pages/HotelDetail";
 import BookingHotel from "./pages/BookingHotel";
+import BookingComplete from "./components/BookingComplete";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -55,7 +56,7 @@ function App() {
           }
         />
         <Route
-          path="/hotel-detail/:id"
+          path="/hotel-detail/:hotelId"
           element={
             <Layout>
               <HotelDetail />
@@ -72,6 +73,16 @@ function App() {
                 </Layout>
               }
             />
+            
+            <Route
+              path="/complete"
+              element={
+                <Layout>
+                  <BookingComplete />
+                </Layout>
+              }
+            />
+
             <Route
               path="/:hotelId/booking"
               element={

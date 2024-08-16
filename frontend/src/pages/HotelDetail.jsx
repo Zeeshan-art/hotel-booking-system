@@ -8,11 +8,13 @@ import { getHotelById } from "../redux/slice/hotel/thunk";
 
 const HotelDetail = () => {
   const hotel = useSelector((state) => state.hotel.data);
-  const { id } = useParams();
+  const { hotelId } = useParams();
+  console.log(hotelId, "hoetId");
+  
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getHotelById(id));
-  }, [id, dispatch]);
+    dispatch(getHotelById(hotelId));
+  }, [hotelId, dispatch]);
   if (hotel.length !== 0) {
     return (
       <div className="space-y-6">
