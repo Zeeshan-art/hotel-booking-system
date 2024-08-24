@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-
+import { myBookings } from './thunk';
+import { toast } from "react-toastify";
 const bookingSlice = createSlice({
   name: 'booking',
   initialState: {
@@ -7,7 +8,8 @@ const bookingSlice = createSlice({
     checkOut: null,
     adultCount: 1,
     childCount: 0,
-    isLoading: false
+    isLoading: false,
+    bookings: []
   },
   reducers: {
     setBookingDetails: (state, action) => {
@@ -20,6 +22,22 @@ const bookingSlice = createSlice({
       state.childCount = childCount;
     },
   },
+  extraReducers: (builder) => {
+    builder
+      .addCase(myBookings.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(myBookings.fulfilled, (state, action) => {
+        const { bookings } = action.payload;
+        state.bookings = bookings;
+        state.isLoading = false;
+        //toast.success(message);
+      })
+      .addCase(myBookings.rejected, (state, action) => {
+        state.isLoading = false;
+        state.bookings = []
+        
+      })}
 
 });
 

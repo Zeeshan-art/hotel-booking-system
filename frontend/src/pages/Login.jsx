@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/slice/auth/thunk";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 const Login = () => {
   const dispatch = useDispatch();
@@ -62,6 +62,7 @@ const Login = () => {
           Log In
         </button>
       </span>
+      <Link to='/register'>Create New Account</Link>
     </form>
   );
 };
