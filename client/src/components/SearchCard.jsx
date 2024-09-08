@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const SearchCard = ({ hotel }) => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] border border-slate-300 rounded-lg p-8 gap-8">
+    <div className="grid grid-cols-1 xl:grid-cols-[2fr_3fr] border border-slate-300 rounded-lg p-8 gap-8">
       <div className="w-full h-[300px]">
         <img
           src={hotel?.imageUrls[0]}
@@ -51,7 +51,7 @@ const SearchCard = ({ hotel }) => {
             </span>
             <Link
               to={`/hotel-detail/${hotel._id}`}
-              className="bg-blue-700 h-full text-white p-2 max-w-fit text-xl hover:bg-blue-600"
+              className="bg-indigo-800 hover:bg-indigo-600 h-full text-white p-2 max-w-fit text-xl"
             >
               View More
             </Link>

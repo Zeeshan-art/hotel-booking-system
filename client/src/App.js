@@ -13,22 +13,23 @@ import AddHotel from "./pages/AddHotel";
 import { useSelector } from "react-redux";
 import MyHotel from "./pages/MyHotel";
 import EditHotel from "./pages/EditHotel";
-import Search from "./components/Search";
 import HotelDetail from "./pages/HotelDetail";
 import BookingHotel from "./pages/BookingHotel";
 import BookingComplete from "./components/BookingComplete";
 import MyBooking from "./pages/MyBooking";
+import Home from "./pages/Home";
+import Search from "./pages/Search";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   return (
     <Router>
       <Routes>
-        <Route
+      <Route
           path="/"
           element={
             <Layout>
-              <p>Home Page</p>
+              <Home />
             </Layout>
           }
         />

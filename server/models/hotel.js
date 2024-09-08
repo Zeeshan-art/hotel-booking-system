@@ -1,49 +1,51 @@
 const mongoose = require("mongoose");
+
+// Define the Booking Schema
 const BookingSchema = new mongoose.Schema({
   firstName: {
-      type: String,
-      required: true,
+    type: String,
+    required: true,
   },
   lastName: {
-      type: String,
-      required: true,
+    type: String,
+    required: true,
   },
   email: {
-      type: String,
-      required: true,
-      unique: true,
+    type: String,
+    required: true,
+    unique: true,
   },
   adultCount: {
-      type: Number,
-      required: true,
+    type: Number,
+    required: true,
   },
   childCount: {
-      type: Number,
-      required: true,
+    type: Number,
+    required: true,
   },
   checkIn: {
-      type: Date,
-      required: true,
+    type: Date,
+    required: true,
   },
   checkOut: {
-      type: Date,
-      required: true,
+    type: Date,
+    required: true,
   },
   userId: {
-      type: String,
-      required: true
+    type: String,
+    required: true,
   },
   totalCost: {
-      type: Number,
-      required: true
+    type: Number,
+    required: true,
   },
-  
-  paymentIntentId:{
+  paymentIntentId: {
     type: String,
-    required:true
+    required: true,
   }
 });
 
+// Define the Hotel Schema
 const HotelSchema = new mongoose.Schema({
   userId: {
     type: String,
@@ -78,7 +80,7 @@ const HotelSchema = new mongoose.Schema({
     required: true,
   },
   facilities: {
-    type: [String], // Change this to an array of strings
+    type: [String], // Array of strings
     required: true,
   },
   pricePerNight: {
@@ -86,13 +88,13 @@ const HotelSchema = new mongoose.Schema({
     required: true,
   },
   starRating: {
-    type: Number, // Change this to a number
+    type: Number, // A number from 1 to 5
     required: true,
     min: 1,
     max: 5,
   },
   imageUrls: {
-    type: [String], // Change this to an array of strings
+    type: [String], // Array of strings
     required: true,
   },
   lastUpdate: {
@@ -101,5 +103,12 @@ const HotelSchema = new mongoose.Schema({
   },
   bookings: [BookingSchema]
 });
+
+// Adding indexes to the HotelSchema
+
+HotelSchema.index({ type: 1 }, { background: true });
+HotelSchema.index({ facilities: 1 }, { background: true });
+HotelSchema.index({ pricePerNight: 1 }, { background: true });
+HotelSchema.index({ starRating: 1 }, { background: true });
 
 module.exports = mongoose.model("Hotel", HotelSchema);

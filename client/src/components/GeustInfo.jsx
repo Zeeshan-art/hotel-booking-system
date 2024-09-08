@@ -120,7 +120,7 @@ const GeustInfo = ({ pricePerNight, hotelId }) => {
             )}
           </label>
         </div>
-        <button type='submit' className="bg-blue-700 text-white p-2 text-center">
+        <button type='submit' className="bg-indigo-800 hover:bg-indigo-600 text-white p-2 text-center">
           {isLoggedIn ? "Book Now" : "Sign in for booking"}
         </button>
       </form>

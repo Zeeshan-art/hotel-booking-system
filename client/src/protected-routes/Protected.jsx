@@ -9,7 +9,6 @@ const Protected = (props) => {
 
   useEffect(() => {
     const token = Cookies.get("token");
-    console.log(token,  "token");
     if (!token) {
       navigate("/login");
     }

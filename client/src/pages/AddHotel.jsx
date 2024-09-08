@@ -8,7 +8,6 @@ const AddHotel = () => {
 
   const dispatch = useDispatch();
   const handleSave = (formData) => {
-    console.log(formData, "formData");
     dispatch(addHotel(formData));
   };
   return <ManageHotelForm onSave={handleSave} isLoading={isLoading} />;

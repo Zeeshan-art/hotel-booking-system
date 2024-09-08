@@ -15,16 +15,12 @@ const BookingHotel = () => {
 
   const token = Cookies.get("token");
   const { user } = token ? jwtDecode(token) : { user: null };
-console.log(user,'userrrrrrrrrrrrr');
-
   const { checkIn, checkOut, adultCount, childCount} = useSelector((state) => state.booking);
   const {isLoading} = useSelector(state=> state.hotel)
   const { hotelId } = useParams();
-  // Convert ISO strings back to Date objects
   const checkInDate = checkIn ? new Date(checkIn) : null;
   const checkOutDate = checkOut ? new Date(checkOut) : null;
   const numberOfNights = checkInDate && checkOutDate ? `${Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24))} nights` : 'N/A'
-
   const dispatch = useDispatch();
 
   useEffect(() => {

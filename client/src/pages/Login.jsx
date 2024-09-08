@@ -57,12 +57,12 @@ const Login = () => {
       <span>
         <button
           type="submit"
-          className="bg-blue-600 text-white p-2 border rounded font-bold hover:bg-blue-500"
+          className="bg-indigo-800 hover:bg-indigo-600 text-white p-2 border rounded font-bold"
         >
           Log In
         </button>
       </span>
-      <Link to='/register'>Create New Account</Link>
+      <Link to='/register' className="text-indigo-800 font-bold hover:underline">Create a New Account</Link>
     </form>
   );
 };

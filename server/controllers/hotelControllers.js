@@ -5,9 +5,11 @@ const stripe = new Stripe(process.env.STRIPE_API_KEY)
 const search = async (req, res) => {
   try {
     const pageSize = 5;
-    const pageNumber = parseInt(req.query.page ? req.query.page : 1);
+    const pageNumber = parseInt(req.query.page ?? 1);
     const skip = (pageNumber - 1) * pageSize;
 
+    console.log(req.query, 'req.query');
+    
     const filters = {};
     if (req.query.stars) {
       filters.starRating = { $in: req.query.stars.split(",") };
@@ -19,20 +21,36 @@ const search = async (req, res) => {
       filters.facilities = { $all: req.query.facilities.split(",") };
     }
     if (req.query.destination) {
-      console.log("city", req.query.destination);
       filters.city = req.query.destination;
     }
     if (req.query.adultCount) {
-      filters.adultCount = { $gte: parseInt(req.query.adultCount) };
+      filters.adultCount = { $gte: req.query.adultCount };
     }
     if (req.query.childCount) {
-      filters.childCount = { $gte: parseInt(req.query.childCount) };
+      filters.childCount = { $gte: req.query.childCount };
+    }
+    if (req.query.maxPrice) {
+      filters.pricePerNight = { $lte: parseInt(req.query.maxPrice) };
     }
 
-    const hotels = await Hotel.find(filters).skip(skip).limit(pageSize);
+    let sortOption = {};
+    if (req.query.sort) {
+      if (req.query.sort === "pricePerNight_asc") {
+        sortOption = { pricePerNight: 1 };
+      } else if (req.query.sort === "pricePerNight_desc") {
+        sortOption = { pricePerNight: -1 };
+      }
+    }
+
+    // Optional: Consider adding indexes to frequently filtered fields like `starRating`, `type`, `facilities`, `city`, `pricePerNight` for better performance.
+
+    const hotels = await Hotel.find(filters)
+      .sort(sortOption)
+      .skip(skip)
+      .limit(pageSize);
 
     if (!hotels || hotels.length === 0) {
-      return res.status(404).json({ message: "Hotels Not Found" });
+      return res.status(404).json({ data: [] });
     }
 
     const total = await Hotel.countDocuments(filters);
@@ -46,10 +64,16 @@ const search = async (req, res) => {
     };
     res.status(200).json(data);
   } catch (error) {
-    console.log("error", error);
-    res.status(500).json({ message: "Something went wrong" });
+    console.error("Error occurred during hotel search:", error);
+    if (error.name === 'ValidationError') {
+      return res.status(400).json({ message: "Invalid query parameters provided." });
+    } else {
+      res.status(500).json({ message: "An error occurred while processing your request." });
+    }
   }
 };
+
+
 
 const getHotelById = async (req, res) => {
   try {
@@ -60,7 +84,6 @@ const getHotelById = async (req, res) => {
     }
     return res.status(200).json(hotel);
   } catch (error) {
-    console.log("error", error);
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
@@ -74,16 +97,13 @@ const hotelBookingPaymentIntent = async (req, res) => {
     if (!hotel || hotel.length === 0) {
       return res.status(404).json({ message: "Hotel Not Found" });
     }   
-    
-    // Calculate total cost in PKR
     const totalCost = hotel.pricePerNight * parseInt(numberOfNights);
     if (isNaN(totalCost)) {
       return res.status(400).json({ message: "Invalid booking details" });
   }
 
-    // Create a payment intent with PKR currency
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: totalCost * 100, // Stripe expects amount in the smallest currency unit. PKR does not have subunits, so this can be avoided.
+      amount: totalCost * 100,
       currency: 'pkr',
       metadata: {
         hotelId,
@@ -94,23 +114,18 @@ const hotelBookingPaymentIntent = async (req, res) => {
     if (!paymentIntent.client_secret) {
       return res.status(500).json({ message: "Error creating payment intent" });
     }
-
     const data = {
       paymentIntentId: paymentIntent.id,
       clientSecret: paymentIntent.client_secret,
       totalCost
     };
-
     return res.status(201).json({ data: data});
   } catch (error) {
-    console.log("error", error);
     return res.status(500).json({ message: "Something went wrong" });
   }
 };
 const hotelBooking = async(req,res)=>{
 try {
-  console.log(req.body, 'req.body.......................');
-  
   const {paymentIntentId} = req.body
   const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId)
   if(!paymentIntent){
@@ -128,7 +143,6 @@ try {
   const newBooking = {
     ...req.body, userId: req.user.userId
   }
-  
   const hotel = await Hotel.findByIdAndUpdate({_id:req.params.hotelId},
     {$push:{bookings: newBooking}}  
   )
@@ -138,8 +152,6 @@ try {
 
   return res.status(200).json({ booking: newBooking, message: "Booking Saved!" });
 } catch (error) {
-  console.log(error);
-  
   return res.status(500).json({message:"Something went wrong"})
 }
 }

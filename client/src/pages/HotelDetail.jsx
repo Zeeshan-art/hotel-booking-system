@@ -9,8 +9,6 @@ import { getHotelById } from "../redux/slice/hotel/thunk";
 const HotelDetail = () => {
   const hotel = useSelector((state) => state.hotel.data);
   const { hotelId } = useParams();
-  console.log(hotelId, "hoetId");
-  
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getHotelById(hotelId));

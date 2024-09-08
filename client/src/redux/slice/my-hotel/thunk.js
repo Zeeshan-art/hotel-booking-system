@@ -22,7 +22,6 @@ export const addHotel = createAsyncThunk(
       );
       return response.data;
     } catch (error) {
-      console.log("err", error);
       const errorMessage = error.response?.data;
       return rejectWithValue(errorMessage);
     }
@@ -42,10 +41,8 @@ export const myHotels = createAsyncThunk(
           },
         }
       );
-      console.log("response", response.data);
       return response.data;
     } catch (error) {
-      console.log("err", error);
       const errorMessage = error.response?.data;
       return rejectWithValue(errorMessage);
     }

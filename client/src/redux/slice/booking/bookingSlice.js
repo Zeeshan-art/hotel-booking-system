@@ -31,12 +31,10 @@ const bookingSlice = createSlice({
         const { bookings } = action.payload;
         state.bookings = bookings;
         state.isLoading = false;
-        //toast.success(message);
       })
       .addCase(myBookings.rejected, (state, action) => {
         state.isLoading = false;
-        state.bookings = []
-        
+        state.bookings = [] 
       })}
 
 });

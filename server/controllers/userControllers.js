@@ -29,7 +29,6 @@ const register = async (req, res) => {
     // });
     return res.status(200).send({ message: "user register successfully" });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({ message: "something went wrong" });
   }
 };
@@ -39,12 +38,10 @@ const login = async (req, res) => {
     return res.status(400).json({ errors: errors.array() });
   }
   const { email, password } = req?.body;
-  console.log(email, password, "2");
   try {
     const user = await User.findOne({
       email,
     });
-    console.log(user, "user");
     if (!user) {
       return res.status(400).json("Invalid credentials");
     }
@@ -72,17 +69,14 @@ const login = async (req, res) => {
     };
     return res.status(200).json(data);
   } catch (error) {
-    console.log(error);
     return res.status(500).send({ message: "something went wrong" });
   }
 };
 const logout = async (req, res) => {
   try {
     res.cookie("auth_token", "", { expires: new Date(0) });
-    console.log("logout");
     return res.status(200).send({ message: "logout successfull" });
   } catch (error) {
-    console.log(error);
     return res.status(500).send({ message: "something went wrong" });
   }
 };

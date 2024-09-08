@@ -2,17 +2,23 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import { myBookings } from '../redux/slice/booking/thunk';
 const MyBooking = () => {
-  const { bookings, message } = useSelector(state => state?.booking)
+  const { bookings } = useSelector(state => state?.booking)
+  console.log(bookings, 'bookings');
+
   const dispatch = useDispatch()
   useEffect(() => {
     dispatch(myBookings())
   }, [])
-  if(bookings.length ===0){
-    return <div>No Booking Found</div>
+  if (bookings?.length < 1) {
+    return (
+      <div className='flex justify-center mt-20'>
+        <div className='text-3xl font-bold'>No Booking Found!</div>
+      </div>
+      )
   }
   return (
     <div className='space-y-4'>
-      {bookings && bookings.map((booking) => (
+      {bookings?.map((booking) => (
         <div className='w-full border border-slate-300 lg:rounded grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-4 p-4'>
           <div className='h-[300px]'>
             <img src={booking.imageUrls[0]} alt='' className='h-full w-full object-fit object-cover object-center' />

@@ -15,7 +15,6 @@ const ImageSection = () => {
       "imageUrls",
       existingUrls.filter((url) => url !== imageUrls)
     );
-    console.log("clicked");
   };
   return (
     <div>
@@ -45,7 +44,6 @@ const ImageSection = () => {
             validate: (imageFiles) => {
               const totalImages =
                 imageFiles.length + (existingUrls?.length || 0);
-                console.log(totalImages,'totalImages');
               if (totalImages === 0) {
                 return "At least one image should be added";
               }

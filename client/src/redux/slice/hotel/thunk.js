@@ -2,19 +2,18 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export const searchHotel = createAsyncThunk(
-  "hotels/search",
-  async (body, { rejecWithValue }) => {
+  "hotels/fetch",
+  async (body, {  rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/api/hotels/search?${body}`
-      );
+      const response = await axios.get(`${process.env.REACT_APP_BASE_URL}/api/hotels/search?${body}`);
       return response.data;
     } catch (error) {
-      const errorMessage = error.response?.response;
-      return rejecWithValue(errorMessage);
+      const errorMessage = error.response?.data?.message || "An error occurred";
+      return rejectWithValue(errorMessage);
     }
   }
 );
+
 export const getHotelById = createAsyncThunk(
   "hotels/getHotelById",
   async (body, { rejecWithValue }) => {

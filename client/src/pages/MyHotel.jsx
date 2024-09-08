@@ -18,18 +18,18 @@ const MyHotel = () => {
         <h1 className="text-3xl font-bold">My Hotel</h1>
         <Link
           to="/add-hotels"
-          className="bg-blue-600 p-2 text-white text-xl font-bold hover:bg-blue-500"
+          className="bg-indigo-800 p-2 text-white text-xl font-bold hover:bg-indigo-600"
         >
           Add Hotel
         </Link>
       </div>
-      {hotel &&
+      {hotel.length > 0 ?
         hotel?.map((hotel, index) => (
           <div className="grid grid-cols1 gap-8" key={index}>
             <div className="flex flex-col p-8 border border-slate-300 rounded-lg gap-2">
               <h2 className="text-2xl font-bold">{hotel.name}</h2>
               <div className="whitespace-pre-line">{hotel.description}</div>
-              <div className="grid grid-cols-5 gap-2">
+              <div className="grid grid-cols-1 lg:grid-cols-5 gap-2">
                 <div className="border border-slate-300 rounded-sm p-3 flex items-center">
                   <BsMap />
                   {hotel.city},{hotel.country}
@@ -54,14 +54,16 @@ const MyHotel = () => {
               <div className="flex justify-end mt-2">
                 <Link
                   to={`/edit-hotels/${hotel._id}`}
-                  className="bg-blue-600 p-2 text-white font-bold hover:bg-blue-500"
+                  className="bg-indigo-800 p-2 text-white font-bold hover:bg-indigo-600"
                 >
                   View Details
                 </Link>
               </div>
             </div>
           </div>
-        ))}
+        )) : <div className='flex justify-center p-20'>
+          <div className='text-3xl font-bold'>No Hotels Found!</div>
+        </div>}
     </div>
   );
 };
