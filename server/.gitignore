@@ -1,0 +1,6 @@
+# Ignore environment variables
+.env
+
+# You can also ignore other sensitive or unnecessary files
+node_modules/
+*.log
