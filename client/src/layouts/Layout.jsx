@@ -9,7 +9,7 @@ const Layout = ({ children }) => {
     <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
       <Hero />
-      <SearchBar />
+      <SearchBar className="px-2 sm:px-0"/>
       <div className="container mx-auto py-10 flex-1">
         <div className="px-2 sm:px-0 ">
           {children}

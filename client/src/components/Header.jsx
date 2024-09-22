@@ -21,7 +21,7 @@ const Header = () => {
       <nav aria-label="Global" className="flex items-center justify-between container mx-auto py-6 w-full ">
         <div className="flex lg:flex-1">
           <Link to="/" className="text-white text-3xl font-bold">
-            SpentHolidays.com
+            SpentHolidays
           </Link>
         </div>
         <div className="flex lg:hidden">
@@ -67,7 +67,7 @@ const Header = () => {
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-indigo-800 p-2 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between mb-10">
             <Link to="/" className="text-white text-3xl font-bold">
-              SpentHolidays.com
+              SpentHolidays
             </Link>
             <button
               type="button"

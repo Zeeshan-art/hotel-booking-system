@@ -8,7 +8,7 @@ const LatestDestinationCard = ({ hotel }) => {
     >
       <div className="h-[300px]">
         <img
-          src={hotel.imageUrls[0]}
+          src={hotel.imageUrls[0]} alt=""
           className="w-full h-full object-cover object-center"
         />
       </div>
